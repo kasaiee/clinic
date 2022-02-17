@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'base/plugins/image-comparison-slider-master/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'base/styles/services.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'base/styles/services_responsive.css' %}">
+{% endblock extra_css %}
+
+{% block extra_js %}
+<script src="{% static 'base/plugins/image-comparison-slider-master/main.js' %}"></script>
+<script src="{% static 'base/js/services.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    var settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "http://127.0.0.1:8000/api/service-list/",
+      "method": "GET",
+      "headers": {
+        "cache-control": "no-cache",
+        "postman-token": "3ff5aa7c-03ba-420f-bca5-5bc994290c5a"
+      }
+    }
+    
+    $.ajax(settings).done(function (response) {
+      serviceList = ''
+      response.map(function(service) {
+        serviceList += `
+        <div class="col-lg-6 price_col">
+          <div class="price">
+            <div class="price_title">${service.name}</div>
+            <div class="price_text">
+              <p>${service.description}</p>
+            </div>
+            <div class="price_panel">From $${service.price}</div>
+          </div>
+        </div>
+        `
+      })
+      $('#service-list').append(serviceList)
+    });
+
+  })
+</script>
+{% endblock extra_js %}
+
+{% block content %}
+	<!-- Home -->
+
+	<div class="home d-flex flex-column align-items-start justify-content-end">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{% static 'base/images/services.jpg' %}" data-speed="0.8"></div>
+		<div class="home_overlay"><img src="{% static 'base/images/home_overlay.png' %}" alt=""></div>
+		<div class="home_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="home_content">
+							<div class="home_title">Services</div>
+							<div class="home_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Services -->
+
+	<div class="services">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title_container">
+						<div class="section_subtitle">This is Dr Pro</div>
+						<div class="section_title"><h2>Our Services</h2></div>
+					</div>
+				</div>
+			</div>
+			<div class="row services_row">
+				
+				<!-- Service -->
+				<div class="col-xl-4 col-md-6 service_col">
+					<div class="service text-center">
+						<div class="service">
+							<div class="icon_container d-flex flex-column align-items-center justify-content-center ml-auto mr-auto">
+								<div class="icon"><img src="{% static 'base/images/icon_4.svg' %}" alt="https://www.flaticon.com/authors/prosymbols"></div>
+							</div>
+							<div class="service_title">Breast Augmentation</div>
+							<div class="service_text">
+								<p>Odio ultrices ut. Etiam ac erat ut enim maximus accumsan vel ac nisl. Duis feugiat bibendum orci, non elementum urna.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Service -->
+				<div class="col-xl-4 col-md-6 service_col">
+					<div class="service text-center">
+						<div class="service">
+							<div class="icon_container d-flex flex-column align-items-center justify-content-center ml-auto mr-auto">
+								<div class="icon"><img src="{% static 'base/images/icon_5.svg' %}" alt="https://www.flaticon.com/authors/prosymbols"></div>
+							</div>
+							<div class="service_title">Breast Augmentation</div>
+							<div class="service_text">
+								<p>Odio ultrices ut. Etiam ac erat ut enim maximus accumsan vel ac nisl. Duis feugiat bibendum orci, non elementum urna.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Service -->
+				<div class="col-xl-4 col-md-6 service_col">
+					<div class="service text-center">
+						<div class="service">
+							<div class="icon_container d-flex flex-column align-items-center justify-content-center ml-auto mr-auto">
+								<div class="icon"><img src="{% static 'base/images/icon_6.svg' %}" alt="https://www.flaticon.com/authors/prosymbols"></div>
+							</div>
+							<div class="service_title">Breast Augmentation</div>
+							<div class="service_text">
+								<p>Odio ultrices ut. Etiam ac erat ut enim maximus accumsan vel ac nisl. Duis feugiat bibendum orci, non elementum urna.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Service -->
+				<div class="col-xl-4 col-md-6 service_col">
+					<div class="service text-center">
+						<div class="service">
+							<div class="icon_container d-flex flex-column align-items-center justify-content-center ml-auto mr-auto">
+								<div class="icon"><img src="{% static 'base/images/icon_7.svg' %}" alt="https://www.flaticon.com/authors/prosymbols"></div>
+							</div>
+							<div class="service_title">Breast Augmentation</div>
+							<div class="service_text">
+								<p>Odio ultrices ut. Etiam ac erat ut enim maximus accumsan vel ac nisl. Duis feugiat bibendum orci, non elementum urna.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Service -->
+				<div class="col-xl-4 col-md-6 service_col">
+					<div class="service text-center">
+						<div class="service">
+							<div class="icon_container d-flex flex-column align-items-center justify-content-center ml-auto mr-auto">
+								<div class="icon"><img src="{% static 'base/images/icon_8.svg' %}" alt="https://www.flaticon.com/authors/prosymbols"></div>
+							</div>
+							<div class="service_title">Breast Augmentation</div>
+							<div class="service_text">
+								<p>Odio ultrices ut. Etiam ac erat ut enim maximus accumsan vel ac nisl. Duis feugiat bibendum orci, non elementum urna.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Service -->
+				<div class="col-xl-4 col-md-6 service_col">
+					<div class="service text-center">
+						<div class="service">
+							<div class="icon_container d-flex flex-column align-items-center justify-content-center ml-auto mr-auto">
+								<div class="icon"><img src="{% static 'base/images/icon_3.svg' %}" alt="https://www.flaticon.com/authors/prosymbols"></div>
+							</div>
+							<div class="service_title">Breast Augmentation</div>
+							<div class="service_text">
+								<p>Odio ultrices ut. Etiam ac erat ut enim maximus accumsan vel ac nisl. Duis feugiat bibendum orci, non elementum urna.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Before and After -->
+
+	<div class="before_and_after">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="section_title_container text-center">
+						<div class="section_subtitle">This is Dr Pro</div>
+						<div class="section_title"><h2>Before & After Gallery</h2></div>
+					</div>
+				</div>
+			</div>
+			<div class="row before_and_after_row">
+				<div class="col">
+					<div class="ba_container">
+						<figure class="cd-image-container">
+							<img src="{% static 'base/images/before.jpg' %}" alt="Original Image">
+							<span class="cd-image-label" data-type="original"></span>
+
+							<div class="cd-resize-img">
+								<img src="{% static 'base/images/after.jpg' %}" alt="Modified Image">
+								<span class="cd-image-label" data-type="modified"></span>
+							</div>
+
+							<span class="cd-handle"></span>
+						</figure>
+					</div>
+					<div class="ba_text text-center"><p>Nulla facilisi. Nulla egestas vel lacus sed interdum. Sed mollis, orci elementum eleifend tempor, nunc libero porttitor tellus.</p></div>
+					<div class="ba_button_container text-center">
+						<div class="button button_1 ba_button"><a href="#">see gallery</a></div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Prices -->
+
+	<div class="prices">
+		<div class="container">
+			<div id="service-list" class="row"></div>
+		</div>
+	</div>
+{% endblock content %}
