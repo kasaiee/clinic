@@ -1,4 +1,5 @@
 {% load static %}
+{% load webpush_notifications %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,10 +16,13 @@
 <link href="{% static 'base/plugins/jquery-datepicker/jquery-ui.css' %}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="{% static 'base/styles/main_styles.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'base/styles/responsive.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'base/styles/custom.css' %}">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 {% block extra_css %}{% endblock extra_css %}
-
+{% webpush_header %}
 </head>
 <body>
+{% include 'login-popup.html' %}
 
 <div class="super_container">
 	
@@ -39,7 +43,6 @@
 			<nav class="main_nav">
 				<ul class="d-flex flex-row align-items-center justify-content-start">
 					<li class="active"><a href="index.html">Home</a></li>
-					<li><a href="about.html">About us</a></li>
 					<li><a href="services.html">Services</a></li>
 					<li><a href="blog.html">News</a></li>
 					<li><a href="contact.html">Contact</a></li>
@@ -55,6 +58,10 @@
 
 				<!-- Appointment Button -->
 				<div class="button button_1 header_button"><a href="#">Make an Appointment</a></div>
+        <!-- Button trigger modal -->
+				<div class="button button_1 header_button" data-toggle="modal" data-target="#loginModel">
+          <a id="login-button-text" href="#">Login</a>
+        </div>
 
 				<!-- Header Social -->
 				<div class="social header_social">
@@ -246,7 +253,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="{% static 'base/plugins/parallax-js-master/parallax.min.js' %}"></script>
 <script src="{% static 'base/plugins/jquery-datepicker/jquery-ui.js' %}"></script>
 <script src="{% static 'base/js/custom.js' %}"></script>
-{% block extra_js %}{% endblock extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
@@ -254,9 +261,78 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'UA-23581568-13');
+
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+
+  $(document).ready(function () {
+    $('#login').on('click', function () {
+      var form = new FormData();
+      var username = $('#username').val()
+      var password = $('#password').val()
+      form.append("username", username);
+      form.append("password", password);
+
+      var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "http://127.0.0.1:8000/api/login/",
+        "method": "POST",
+        "headers": {
+          "cache-control": "no-cache",
+          "postman-token": "371df928-7de2-f2d9-27ca-113fdcb7581e",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        "processData": false,
+        "contentType": false,
+        "mimeType": "multipart/form-data",
+        "data": form
+      }
+
+      $.ajax(settings).done(function (response) {
+        response = JSON.parse(response);
+        localStorage.setItem('token', 'Token ' + response.token)
+        $('#login-button-text').text('Logout')
+      });
+    })
+
+    // handling login button text
+    $(document).ready(function() {
+      var token = localStorage.getItem('token')
+      el = $('#login-button-text')
+      if (token) {
+        el.text('Logout')
+      } else {
+        el.text('Login')
+      }
+
+      el.on('click', function () {
+        if (el.text() === 'Logout') {
+          localStorage.removeItem('token')
+          el.text('Login')
+        }
+      })
+    })
+  })
 </script>
+
+{% block extra_js %}{% endblock extra_js %}
 
 </body>
 </html>
