@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'webpush',
     'app_base',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "BNhQiVju7Bf0809erRMaeYPUJQfdUzNnK9sqgtKrApvclxsHH5xhNTtrFRYMPPRQcDD1bOtMnH2F_evIdeLyH5k",
+    "VAPID_PRIVATE_KEY":"f8mCvcIkZsy5F6SMabOO0BM2U_0HjXC84ijHVIqVylM",
+    "VAPID_ADMIN_EMAIL": "1tapciran@gmail.com"
+}

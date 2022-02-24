@@ -151,7 +151,7 @@ $(document).ready(function()
 
 	function initDatePicker()
 	{
-		var dp = $('#datepicker');
+		var dp = $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });;
 		dp.datepicker();
 	}
 

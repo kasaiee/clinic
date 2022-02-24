@@ -1,0 +1,18 @@
+.webpush_button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+#loginModel .login-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+#loginModel .login-inputs input {
+  width: 100%
+}

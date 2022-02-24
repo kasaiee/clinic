@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load webpush_notifications %}
 
 {% block content %}
 	<!-- Home -->
@@ -149,31 +150,22 @@
 				<div class="col-lg-6 intro_col">
 					<div class="intro_form_container">
 						<div class="intro_form_title">Make an Appointment</div>
-						<form action="#" class="intro_form" id="intro_form">
+						{% comment %} <form action="#" class="intro_form" id="intro_form"> {% endcomment %}
 							<div class="d-flex flex-row align-items-start justify-content-between flex-wrap">
-								<input type="text" class="intro_input" placeholder="Your Name" required="required">
-								<input type="email" class="intro_input" placeholder="Your E-mail" required="required">
-								<input type="tel" class="intro_input" placeholder="Your Phone" required="required">
-								<select class="intro_select intro_input" required>
+								<input id="name" type="text" class="intro_input" placeholder="Your Name" required="required">
+								<input id="email" type="email" class="intro_input" placeholder="Your E-mail" required="required">
+								<input id="tel" type="tel" class="intro_input" placeholder="Your Phone" required="required">
+								<select id="speciality-list" class="intro_select intro_input" required>
 									<option disabled="" selected="" value="">Speciality</option>
-									<option>Speciality 1</option>
-									<option>Speciality 2</option>
-									<option>Speciality 3</option>
-									<option>Speciality 4</option>
-									<option>Speciality 5</option>
 								</select>
-								<select class="intro_select intro_input" required="required">
+								<select id="doctor-list" class="intro_select intro_input" required="required">
 										<option disabled="" selected="" value="">Doctor</option>
-										<option>Doctor 1</option>
-										<option>Doctor 2</option>
-										<option>Doctor 3</option>
-										<option>Doctor 4</option>
-										<option>Doctor 5</option>
 									</select>
 								<input type="text" id="datepicker" class="intro_input datepicker" placeholder="Date" required="required">
 							</div>
-							<button class="button button_1 intro_button trans_200">make an appointment</button>
-						</form>
+							<button id="make-an-appointment" class="button button_1 intro_button trans_200">make an appointment</button>
+              {% webpush_button with_class="button button_2 trans_200 webpush_button" %}
+						{% comment %} </form> {% endcomment %}
 					</div>
 				</div>
 
@@ -401,3 +393,106 @@
 	</div>
 
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+  $(document).ready(function() {
+    var settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "http://127.0.0.1:8000/api/speciality-list/",
+      "method": "GET",
+      "headers": {
+        "cache-control": "no-cache",
+        "postman-token": "568c09b1-b3da-bdda-658f-0330637a4a7f"
+      }
+    }
+    
+    $.ajax(settings).done(function (response) {
+      options = ''
+      response.map(function(speciality) {
+        options += `<option value="${speciality.id}">${speciality.name}</option>`
+      })
+      $('#speciality-list').append(options)
+    });
+    
+    $('#speciality-list').on('change', function(e) {
+      var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "http://127.0.0.1:8000/api/speciality-list/",
+        "method": "GET",
+        "headers": {
+          "cache-control": "no-cache",
+          "postman-token": "568c09b1-b3da-bdda-658f-0330637a4a7f"
+        }
+      }
+      
+      selectedSpecialityId = $(this).val()
+      selectedSpecialityId = parseInt(selectedSpecialityId)
+
+      $.ajax(settings).done(function (response) {
+        res = response.filter(function(speciality) {
+          if (speciality.id === selectedSpecialityId) {
+            return true
+          }
+        })
+        options = ''
+        res[0].doctor_list.map(function(doctor) {
+          options += `<option value="${doctor.id}">${doctor.fname} ${doctor.lname}</option>`
+        })
+        $('#doctor-list').html(options)
+      });
+    })
+
+    // submit an appointment
+    $('#make-an-appointment').on('click', function() {
+      name = $('#name').val()
+      email = $('#email').val()
+      tel = $('#tel').val()
+      specialityId = $('#speciality-list').val()
+      doctorId = $('#doctor-list').val()
+      datepicker = $('#datepicker').val()
+
+      var form = new FormData();
+      form.append("name", name);
+      form.append("email", email);
+      form.append("phone", tel);
+      form.append("date", datepicker);
+      form.append("doctorId", doctorId);
+      form.append("specialityId", specialityId);
+
+      var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "http://127.0.0.1:8000/api/appointment-add/",
+        "method": "POST",
+        "headers": {
+          "cache-control": "no-cache",
+          "postman-token": "81f9507c-2f65-4148-fc47-6cb22fd45837",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        "processData": false,
+        "contentType": false,
+        "mimeType": "multipart/form-data",
+        "data": form
+      }
+
+      $.ajax(settings).done(function (response) {
+        response = JSON.parse(response);
+        if (response.status === 'ok') {
+          toastr.success(response.message)
+          $('#name').val(null)
+          $('#email').val(null)
+          $('#tel').val(null)
+          $('#speciality-list').val(null)
+          $('#doctor-list').val(null)
+          $('#datepicker').val(null)
+        } else {
+          toastr.error(response.message)
+        }
+      });
+    })
+  })
+</script>
+{% endblock extra_js %}
