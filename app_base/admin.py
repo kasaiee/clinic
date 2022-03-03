@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_base.models import Speciality, Doctor, Appointment, Service
+from app_base.models import Speciality, Doctor, Appointment, Service, Subscriber
 
 
 @admin.action(description='Mark selected appointments as accepted')
@@ -25,3 +25,4 @@ admin.site.register(Speciality)
 admin.site.register(Doctor)
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(Service)
+admin.site.register(Subscriber)
