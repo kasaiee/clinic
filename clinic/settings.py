@@ -131,3 +131,9 @@ WEBPUSH_SETTINGS = {
     "VAPID_PRIVATE_KEY":"f8mCvcIkZsy5F6SMabOO0BM2U_0HjXC84ijHVIqVylM",
     "VAPID_ADMIN_EMAIL": "1tapciran@gmail.com"
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}

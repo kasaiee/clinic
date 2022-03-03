@@ -468,6 +468,7 @@
         "url": "http://127.0.0.1:8000/api/appointment-add/",
         "method": "POST",
         "headers": {
+          "authorization": localStorage.getItem('token'),
           "cache-control": "no-cache",
           "postman-token": "81f9507c-2f65-4148-fc47-6cb22fd45837",
           "X-CSRFToken": "{{ csrf_token }}"

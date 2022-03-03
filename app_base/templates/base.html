@@ -132,7 +132,6 @@
 	</div>
 
 	<!-- Footer -->
-
 	<footer class="footer">
 		<div class="footer_content">
 			<div class="container">
@@ -284,8 +283,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   $(document).ready(function () {
     $('#login').on('click', function () {
       var form = new FormData();
-      var username = $('#username').val()
-      var password = $('#password').val()
+      var username = $('#login-username').val()
+      var password = $('#login-password').val()
       form.append("username", username);
       form.append("password", password);
 
@@ -331,6 +330,49 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     })
   })
 </script>
+
+<script>
+  $(document).ready(function() {
+    $('#go-to-login').on('click', function(){
+      $('#register-form').fadeOut(function() {
+        $('#login-form').fadeIn()
+      })
+    })
+    $('#go-to-register').on('click', function(){
+      $('#login-form').fadeOut(function() {
+        $('#register-form').fadeIn()
+      })
+    })
+
+    $('#login').on('click', function() {
+      var form = new FormData();
+      username = $('#login-username').val()
+      password = $('#login-password').val()
+      form.append("username", username);
+      form.append("password", password);
+
+      var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "http://127.0.0.1:8000/api/login/",
+        "method": "POST",
+        "headers": {
+          "cache-control": "no-cache",
+          "postman-token": "7ddde022-3f67-7f28-a657-90b57849c72c"
+        },
+        "processData": false,
+        "contentType": false,
+        "mimeType": "multipart/form-data",
+        "data": form
+      }
+
+      $.ajax(settings).done(function (response) {
+        console.log('response >>>', response);
+      });
+    })
+  })
+</script>
+
 
 {% block extra_js %}{% endblock extra_js %}
 

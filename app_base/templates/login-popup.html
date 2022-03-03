@@ -9,14 +9,21 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="login-inputs">
-          <input id="username" type="text" class="intro_input" placeholder="Username" required="required">
-          <input id="password" type="password" class="intro_input" placeholder="Password" required="required">
+        <div id="register-form" class="login-inputs" style="display: none">
+          <input id="register-username" type="text" class="intro_input" placeholder="Username" required="required">
+          <input id="register-password" type="password" class="intro_input" placeholder="Password" required="required">
+          <input id="confirm-password" type="password" class="intro_input" placeholder="Confirm Password" required="required">
+          <div id="register" class="button text-center button_2" data-dismiss="modal"><a href="#">Register</a></div>
+          <br />
+          <a id="go-to-login" class="text-center" href="#!">Do you have an account? login yet</a>
         </div>
-      </div>
-      <div class="modal-footer">
-        <div class="button button_1 trans_200" data-dismiss="modal"><a href="#">Close</a></div>
-        <div id="login" class="button button_2" data-dismiss="modal"><a href="#">Login</a></div>
+        <div id="login-form" class="login-inputs">
+          <input id="login-username" type="text" class="intro_input" placeholder="Username" required="required">
+          <input id="login-password" type="password" class="intro_input" placeholder="Password" required="required">
+          <div id="login" class="button button_2 text-center" data-dismiss="modal"><a href="#">Login</a></div>
+          <br />
+          <a id="go-to-register" class="text-center" href="#!">Don't have an account?</a>
+        </div>
       </div>
     </div>
   </div>

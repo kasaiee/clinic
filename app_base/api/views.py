@@ -46,7 +46,6 @@ def speciality_list(request):
 
 @api_view(['POST'])
 def appointment_add(request):
-    # import pdb; pdb.set_trace()
     name = request.POST.get('name')
     phone = request.POST.get('phone')
     email = request.POST.get('email')
