@@ -19,4 +19,5 @@ from app_base import views
 urlpatterns = [
     path('', views.index),
     path('services/', views.services),
+    path('invoice/<int:pk>/', views.invoice),
 ]

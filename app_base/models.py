@@ -31,6 +31,7 @@ def send_web_push(sender, instance, *args, **kwargs):
             payload = {
                 "head": f"Dear {instance.name}!",
                 "icon": "http://127.0.0.1:8000/static/base/images/logo.png",
+                "url": f"http://127.0.0.1:8000/invoice/{instance.id}/",
                 "body": f'''
                     Your appointment at
                     {instance.date} by {instance.doctor} ({instance.speciality}),

@@ -16,3 +16,13 @@
 #loginModel .login-inputs input {
   width: 100%
 }
+
+.invoice-top-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invoice-top-image svg {
+  width: 30vw
+}
